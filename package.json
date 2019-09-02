@@ -1,0 +1,27 @@
+{
+  "name": "poligon_nuxt_with_vue2.6",
+  "version": "1.0.0",
+  "description": "My super-duper Nuxt.js project",
+  "author": "Belozerskiy Michael",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "graphql-tag": "^2.10.1",
+    "nuxt": "^2.0.0",
+    "vue": "^2.6.10",
+    "vue-server-renderer": "2.6.6",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "devDependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc12",
+    "nodemon": "^1.18.9"
+  }
+}
