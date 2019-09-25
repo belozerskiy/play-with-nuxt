@@ -3,7 +3,6 @@
     <FetchApi 
       method="GET"
       endpoint="https://swapi.co/api/people/1"
-      :client="false"
       v-slot="{ data }"
     >
       <pre>

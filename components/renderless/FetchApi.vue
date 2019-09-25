@@ -35,32 +35,30 @@ export default {
     }
   },
   async serverPrefetch() {
-    if(this.ssr) { await this.fetch(); console.log('Server') }
+    if (this.ssr) { await this.fetch(); console.log('Server') }
   },
-  async mounted() {
-    const cachedData = JSON.parse(this.$el.getAttribute('v-data'))
-    if(cachedData) {
-      this.data = cachedData
-      this.$el.removeAttribute('v-data')
+  render(h) {
+    const { data, error, loading } = this
+
+    if (!process.server) {
+      const vnode = h('div', [])
+      vnode.asyncFactory = {}
+      vnode.isComment = true
+      return vnode
     } else {
-      this.data = await this.fetch();
+      return h('div', this.$scopedSlots.default({ data, error, loading }))
     }
   },
-  render(createElement) {
-    const { data, error, loading } = this
-    return  createElement('div', { attrs: { 'v-data': JSON.stringify(data) } }, this.$scopedSlots.default({ data, error, loading }))
-  },
+
   methods: {
     async fetch() {
       this.loading = true
       const { method, endpoint, params } = this
+
+      let options = method.toUpperCase() === 'GET' ? { params } : { data: params }
+      
       try {
-        if(method.toUpperCase() === 'GET') {
-          this.data = await this.$axios.$get(endpoint, { params })
-        }
-        if(method.toUpperCase() === 'POST') {
-          this.data = await this.$axios.$post(endpoint, { data: params })
-        }
+        this.data = await this.$axios[`$${method.toLowerCase()}`](endpoint, { data: params })
       } catch(RequestException) {
         this.error = RequestException
         console.log(RequestException)
